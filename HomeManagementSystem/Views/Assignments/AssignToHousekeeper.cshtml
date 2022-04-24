@@ -1,0 +1,42 @@
+﻿@model HomeManagementSystem.Data.Entites.Assignment
+
+@{
+    ViewData["Title"] = "Assign To Housekeeper";
+}
+
+<h1>Assign</h1>
+
+<h4>Assignment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignToHousekeeper">
+            <div class="form-group">
+                <label asp-for="AssignedHousekeeperId" class="control-label"></label>
+                <select asp-for="AssignedHousekeeperId" class="form-control" asp-items="ViewBag.Housekeepers"></select>
+                <span asp-validation-for="AssignedHousekeeperId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="Description" />
+            <input type="hidden" asp-for="DeadLine" />
+            <input type="hidden" asp-for="CompletedTask" />
+            <input type="hidden" asp-for="DateOfCompletion" />
+            <input type="hidden" asp-for="CategoryOfAssignment" />
+            <input type="hidden" asp-for="StatusOfAssignent" />
+            <input type="hidden" asp-for="LocationId" />
+            <input type="hidden" asp-for="CreatorId" />
+            <div class="form-group">
+                <input type="submit" value="Assign" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

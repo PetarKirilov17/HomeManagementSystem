@@ -1,0 +1,142 @@
+﻿@model IEnumerable<HomeManagementSystem.Data.Entites.Assignment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by description: <input type="text" name="SearchString2" value="@ViewData["CurrentFilter2"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+@* TODO *@
+@*<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Status: <select name="status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeadLine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompletedTask)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfCompletion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryOfAssignment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusOfAssignent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creator)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeadLine)
+                </td>
+                <td>
+                    @if (item.CompletedTask == null)
+                    {
+                        <p>Not completed</p>
+                    }
+                    else
+                    {
+                        <img src="~/images/@item.CompletedTask" alt="Image" width="100" height="100" />
+                    }
+                </td>
+                <td>
+                    @if (item.DateOfCompletion == default(DateTime))
+                    {
+                        <p>Not completed</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.DateOfCompletion)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryOfAssignment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusOfAssignent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator.UserName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    @if (User.IsInRole("Client"))
+                    {
+                        <form method="post"><button class="btn btn-default" asp-action="Decline" asp-route-id="@item.Id">Decline</button></form>
+                        <form method="post"><button class="btn btn-default" asp-action="Complete" asp-route-id="@item.Id">Mark as completed</button></form>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <form method="get"><button class="btn btn-default" asp-action="AssignToHousekeeper" asp-route-id="@item.Id" asp-route-LocationId="@item.LocationId">Assign</button></form>
+                    }
+                    @if (User.IsInRole("Housekeeper"))
+                    {
+                        <form method="get"><button class="btn btn-default" asp-action="MakeForView" asp-route-id="@item.Id">Complete</button></form>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

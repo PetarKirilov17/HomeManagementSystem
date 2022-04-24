@@ -1,0 +1,42 @@
+﻿@model HomeManagementSystem.Data.Entites.Assignment
+
+@{
+    ViewData["Title"] = "Assign To Housekeeper";
+}
+
+<h1>MakeForView</h1>
+
+<h4>Upload image that shows the completion of the assignment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-action="MakeForView">
+            <div class="form-group">
+                <p>Upload</p>
+                <input type="file" name="files" />
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="Description" />
+            <input type="hidden" asp-for="DeadLine" />
+            <input type="hidden" asp-for="CompletedTask" />
+            <input type="hidden" asp-for="DateOfCompletion" />
+            <input type="hidden" asp-for="CategoryOfAssignment" />
+            <input type="hidden" asp-for="StatusOfAssignent" />
+            <input type="hidden" asp-for="LocationId" />
+            <input type="hidden" asp-for="CreatorId" />
+            <input type="hidden" asp-for="AssignedHousekeeperId" />
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

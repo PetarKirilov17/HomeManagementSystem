@@ -1,0 +1,71 @@
+﻿@model HomeManagementSystem.Data.Entites.Assignment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Assignment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeadLine" class="control-label"></label>
+                <input asp-for="DeadLine" class="form-control" />
+                <span asp-validation-for="DeadLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryOfAssignment" class="control-label"></label>
+                <select asp-for="CategoryOfAssignment" class="form-control" asp-items="Html.GetEnumSelectList<Category>()"></select>
+                <span asp-validation-for="CategoryOfAssignment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationId" class="control-label"></label>
+                <select asp-for="LocationId" class="form-control" asp-items="ViewBag.Locations"></select>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label asp-for="StatusOfAssignent" class="control-label"></label>
+                    <select asp-for="StatusOfAssignent" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+                    <span asp-validation-for="StatusOfAssignent" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                 <input type="hidden" asp-for="StatusOfAssignent" />
+            }
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatorId" />
+            <input type="hidden" asp-for="AssignedHousekeeperId" />
+            <input type="hidden" asp-for="DateOfCompletion" />
+            <input type="hidden" asp-for="CompletedTask" />
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
